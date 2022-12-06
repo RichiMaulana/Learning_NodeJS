@@ -1,4 +1,5 @@
-:toc:
+:toc: macro
+:toc-title: Table of Adventures
 :toc-level: 4
 :sectnums:
 :sectnums-level: 9
@@ -6,6 +7,11 @@
 :Doctype: book
 
 = I call this repo 'a Note for my NodeJS learning progress'
+
+[.text-center]
+image:https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png[NodeJS Logo, 400]
+
+toc::[]
 
 == First Section: Build a Simpe API as an Introduction to NodeJS
 
