@@ -1,0 +1,138 @@
+:toc:
+:toc-level: 4
+:sectnums:
+:sectnums-level: 9
+:pdf-page-size: A4
+:Doctype: book
+
+= I call this repo 'a Note for my NodeJS learning progress'
+
+== First Section: Build a Simpe API as an Introduction to NodeJS
+
+What I learn in this section is well explained material to NodeJS and Learn how to build simple API using it, such as:
+
+. What is Node JS and Why Use It? 
+. Running JavaScript Outside the Browser
+. Using Modules
+. Basic Reading and Writing File
+. Blocking and Non-Blocking: Asynchronous Nature of Node JS
+. Basic Reading and Writing File Asynchronous way
+. Creating a Simple Web Server
+. Routing
+. Build a Very Simple API
+. HTML Templating: Build the Templates ad Filling the Templates 
+. Parsing Variables from URLs
+. Introduction to NPM and the package.json
+. Type of Packages and Installs
+. Package Versioning and Updating
+
+NOTE: I will explain every single point later, maybe :D, it's my own notes anyway :b
+
+== Second Section: Introduction to Back-End Web Development
+
+In this section I learn about basic knowledge how Web works, HTTP and others, such as:
+
+. An Overview of How the Web is Works
+. HTTP in Action
+. Front-End vs. Back-End Web Development 
+. Static vs Dynamic vs API
+
+NOTE: same as above (:
+
+== How Node JS Works: A Look Behind the Scenes
+
+This Section is actually more deep explained about how Node JS work behind the scenes, such as:
+
+. Node, V8, Libuv and C++ +
+Node JS is actually built with V8 engine (not a car engine) from Google using Libuv Library and Using C++ Programming Language
+
+. Processes, Threads and Thread Pool +
+From what i get from this Section, Node JS is Single threated application, meaning that Node JS is just using 1 (one) thread to handle request. And using Thread Pool (Thread that Node JS use to actually process the request(process it in background (honestly I don't really know about this, maybe I will repeat this section again later)))
+
+. The Node JS Event Loop
+
+. Events and Event-Driven Architecture
+
+. Introduction to Streams +
+Streams is used to read a large amount of data, such as large file, video, etc.
+
+. How Requiring Modules Really Works
+
+== Asynchronous JavaScript: Promises and Async/Await
+
+From this section, I learn about how callback can ruin our code. 
+
+. The Problem with Callbacks: Callbacks Hell +
+Here is the Example: +
++
+[source, javascript]
+----
+fs.readdir(source, function (err, files) {
+  if (err) {
+    console.log('Error finding files: ' + err)
+  } else {
+    files.forEach(function (filename, fileIndex) {
+      console.log(filename)
+      gm(source + filename).size(function (err, values) {
+        if (err) {
+          console.log('Error identifying file size: ' + err)
+        } else {
+          console.log(filename + ' : ' + values)
+          aspect = (values.width / values.height)
+          widths.forEach(function (width, widthIndex) {
+            height = Math.round(width / aspect)
+            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
+              if (err) console.log('Error writing file: ' + err)
+            })
+          }.bind(this))
+        }
+      })
+    })
+  }
+})
+----
+
++
+So the point in this section is how to avoid the above Example.
+
+. From Callback Hell to Promises
+. Consuming Promises with Async/Await
+. Returning Values from Async Functions
+. Waiting for Multiple Promises Simultaneously
+
+== Express: Start Building an API
+
+. What is Express? +
+Express is framework for Node JS to build a web application. The short is this module can make our application build process a little bit easier then without using it.
+
+. Postman Intro +
+Postman is an application to access and test our API. 
+
+. Setting up Express and Basic Routing. +
+In this section the lecturer explain about how to actually using Express and setup a basic routing using it.
+
+. To Be Continued...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
