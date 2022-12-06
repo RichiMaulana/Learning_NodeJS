@@ -9,7 +9,8 @@
 = I call this repo 'a Note for my NodeJS learning progress'
 
 [.text-center]
-image:https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png[NodeJS Logo, 400]
+//image:https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png[NodeJS Logo, 400]
+image:https://nodejs.org/static/images/logo.svg[NodeJS Logo, 400]
 
 toc::[]
 
