@@ -5,6 +5,7 @@
 :sectnums-level: 9
 :pdf-page-size: A4
 :Doctype: book
+:source-highlighter: coderay
 
 = I call this repo 'a Note for my NodeJS learning progress'
 
@@ -72,39 +73,33 @@ From this section, I learn about how callback can ruin our code.
 . The Problem with Callbacks: Callbacks Hell +
 Here is the Example: +
 +
-[source, javascript]
+[source, javascript, linenums]
 ----
-fs.readdir(source, function (err, files) {
-  if (err) {
-    console.log('Error finding files: ' + err)
-  } else {
-    files.forEach(function (filename, fileIndex) {
-      console.log(filename)
-      gm(source + filename).size(function (err, values) {
-        if (err) {
-          console.log('Error identifying file size: ' + err)
-        } else {
-          console.log(filename + ' : ' + values)
-          aspect = (values.width / values.height)
-          widths.forEach(function (width, widthIndex) {
-            height = Math.round(width / aspect)
-            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
-            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
-              if (err) console.log('Error writing file: ' + err)
-            })
-          }.bind(this))
-        }
-      })
-    })
-  }
-})
+include::./async-promise/callback-hell.js[lines=3..]
 ----
 
 +
-So the point in this section is how to avoid the above Example.
+See how the code making the triangle shape? Well, that's the point of this section, to get rid of that triangle by using bellow method.
+//So the point in this section is how to avoid the above Example.
 
-. From Callback Hell to Promises
-. Consuming Promises with Async/Await
+. From Callback Hell to Promises +
+Promise is basically the future value that we expect to get from a function. Here is the recreate of above code using promises: +
++
+[source, javascript, linenums]
+----
+include::./async-promise/promise.js[lines=3..]
+----
++
+Promises make the code easier to understand and maintain. 
+
+. Consuming Promises with Async/Await +
+Async is basically mean Asynchronous, that means a function with async will performing the code that's in the function, while the rest of the code keeps running in the Event Loop (Without blocking the Event Loop). Await is used in inside of the async function, await will sotop the code and wait for promises function until it's get the value. Here is the example of Async/Await : +
++
+[source, javascript, linenums]
+----
+include::./async-promise/async-promise.js[lines=22..51]
+----
+
 . Returning Values from Async Functions
 . Waiting for Multiple Promises Simultaneously
 
