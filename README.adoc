@@ -15,6 +15,8 @@ image:https://nodejs.org/static/images/logo.svg[NodeJS Logo, 400]
 
 toc::[]
 
+WARNING: Github does not support asciidoc pretty well so if the source code not shown then blame github 🙃
+
 == First Section: Build a Simpe API as an Introduction to NodeJS
 
 What I learn in this section is well explained material to NodeJS and Learn how to build simple API using it, such as:
@@ -73,7 +75,7 @@ From this section, I learn about how callback can ruin our code.
 . The Problem with Callbacks: Callbacks Hell +
 Here is the Example: +
 +
-[source, javascript, linenums]
+[source%linenums, javascript]
 ----
 include::./async-promise/callback-hell.js[lines=3..]
 ----
