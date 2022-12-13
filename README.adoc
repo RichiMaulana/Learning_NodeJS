@@ -1,11 +1,11 @@
 :toc: macro
-:toc-title: Table of Adventures
+:toc-title: Table of Adventures:
 :toc-level: 4
 :sectnums:
 :sectnums-level: 9
 :pdf-page-size: A4
 :Doctype: book
-:source-highlighter: coderay
+
 
 = I call this repo 'a Note for my NodeJS learning progress'
 
@@ -116,27 +116,6 @@ Postman is an application to access and test our API.
 . Setting up Express and Basic Routing. +
 In this section the lecturer explain about how to actually using Express and setup a basic routing using it.
 
-. To Be Continued...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+. API and RESTful API design +
+API is stands for Application Programming Interface : a piece of software that can be used by another software, in order to allow application to talk to each other.
 
