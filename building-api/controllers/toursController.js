@@ -1,10 +1,9 @@
-const fs = require('fs');
+// Using sequelize and PostgreSQL
+
 const { toursModel } = require('../models');
 
 exports.checkId = async (req, res, next, val) => {
   const checking = await toursModel.findOne({ where: { uuid: val } });
-
-  console.log(val);
 
   if (!checking) {
     return res.status(404).json({
@@ -16,15 +15,15 @@ exports.checkId = async (req, res, next, val) => {
 };
 
 exports.checkBody = (req, res, next) => {
-  const data = req.body;
+  // const data = req.body;
 
-  if (!data.name || !data.price) {
-    return res.status(400).json({
-      status: 'Bad Request',
-      message:
-        'Request body does not meet the minimum requirements, Name or Price',
-    });
-  }
+  // if (!data.name || !data.price) {
+  //   return res.status(400).json({
+  //     status: 'Bad Request',
+  //     message:
+  //       'Request body does not meet the minimum requirements, Name or Price',
+  //   });
+  // }
   next();
 };
 
@@ -61,9 +60,6 @@ exports.getTour = async (req, res) => {
 };
 
 exports.createTour = async (req, res) => {
-  // const { name, duration, maxGroupSize, difficulty, ratingsAverage, ratingsQuantity, price,summary, description, } = req.body;
-
-  // const newTour = Object.assign({ id: newId }, req.body);
   const {
     name,
     duration,
@@ -95,6 +91,8 @@ exports.createTour = async (req, res) => {
       startDates,
     });
 
+    console.log(tour);
+
     res.status(201).json({
       status: 'Success',
       data: {
@@ -104,7 +102,7 @@ exports.createTour = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       status: 'Failed',
-      message: err.message,
+      message: err,
     });
   }
 };
@@ -159,14 +157,13 @@ exports.updateTour = async (req, res) => {
       status: 'Failed',
       message: err.message,
     });
-    // console.log(err);
   }
 };
 
 exports.deleteTour = (req, res) => {
   const { uuid } = req.params;
   try {
-    const deleteTour = toursModel.destroy({
+    toursModel.destroy({
       where: { uuid },
     });
 
