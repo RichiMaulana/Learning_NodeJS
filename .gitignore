@@ -1,3 +1,7 @@
+building-api/.eslintrc.json
+building-api/.idea/
+building-api/.prettierrc
+building-api/.vscode/
 building-api/node_modules
 
 # Logs
