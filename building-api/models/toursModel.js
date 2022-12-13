@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         notNull: true,
+        unique: true,
       },
       id: {
         type: DataTypes.INTEGER,
@@ -40,7 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       ratingsAverage: DataTypes.FLOAT,
       ratingsQuantity: DataTypes.INTEGER,
-      price: DataTypes.INTEGER,
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       summary: {
         type: DataTypes.STRING,
       },
