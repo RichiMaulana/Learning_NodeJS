@@ -11,7 +11,9 @@ module.exports = {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         notNull: true,
+        unique: true,
       },
       id: {
         type: DataTypes.INTEGER,
@@ -25,7 +27,10 @@ module.exports = {
       },
       ratingsAverage: DataTypes.FLOAT,
       ratingsQuantity: DataTypes.INTEGER,
-      price: DataTypes.INTEGER,
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       summary: {
         type: DataTypes.STRING,
       },
