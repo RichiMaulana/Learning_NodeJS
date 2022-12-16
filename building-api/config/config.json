@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Rahasia123!",
+    "password": "rahasia",
     "database": "sequelize_db",
-    "host": "127.0.0.1",
+    "host": "172.25.1.55",
     "dialect": "postgres"
   },
   "test": {
