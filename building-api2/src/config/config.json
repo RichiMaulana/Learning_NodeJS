@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "rahasia",
-    "database": "sequelize_db",
+    "database": "building_api2",
     "host": "172.25.1.55",
     "dialect": "postgres"
   },
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "postgres",
-    "password": "rahasia",
-    "database": "sequelize_db",
-    "host": "172.25.1.55",
-    "dialect": "postgres"
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   }
 }

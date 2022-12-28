@@ -1,5 +1,3 @@
-// const { toursModel } = require('../models');
-
 class APIFeature {
   constructor(queryString) {
     this.queryString = queryString;
@@ -41,43 +39,20 @@ class APIFeature {
       attributes = this.queryString.fields.split(',');
     }
 
-    const { page } = this.queryString || 1;
-    const { limit } = this.queryString || 100;
+    const page = this.queryString.page || 1;
+    const limit = this.queryString.limit || 100;
     const skip = Math.max(page - 1, 0) * limit;
 
     const filter = {
       limit: limit,
       offset: skip,
-      order: [[this.queryString.sort, this.queryString.order || 'asc']],
       attributes,
     };
-
+    if (this.queryString.sort) {
+      filter.order = [[this.queryString.sort, this.queryString.order || 'asc']];
+    }
     return filter;
   }
 }
-
-// const queryParams = {
-//   sort: 'price',
-//   limit: '1',
-//   page: '1',
-//   order: 'desc',
-//   fields: 'name,duration,difficulty,ratingsAverage',
-//   price: {
-//     gte: 500,
-//   },
-// };
-
-// const query = new APIFeature(queryParams).query();
-// const filter = new APIFeature(queryParams).filter();
-
-// (async () => {
-//   const data = await toursModel.findAll({ ...query, ...filter });
-//   console.log(data);
-// })();
-
-// console.log({ where: myCar.query() });
-// console.log(toursModel);
-
-// console.log({ ...query, ...filter });
 
 module.exports = APIFeature;

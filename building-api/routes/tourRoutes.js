@@ -13,10 +13,14 @@ tourRouter
   .route('/top-5-tours')
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
+tourRouter.route('/tour-stats').get(tourController.getToursStats);
+
 tourRouter
   .route('/')
   .get(tourController.getAllTours)
   .post(tourController.createTour);
+
+tourRouter.route('/monthly-plan/:year?').get(tourController.getMonthlyPlan);
 
 tourRouter
   .route('/:uuid')

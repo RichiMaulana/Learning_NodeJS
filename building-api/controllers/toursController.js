@@ -1,6 +1,12 @@
 // Using sequelize and PostgreSQL
 
-const { toursModel } = require('../models');
+const { toursModel, Sequelize } = require('../models');
+
+const { fn, col, ARRAY } = Sequelize;
+
+const APIFeature = require('../utils/apiFeatures');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
 exports.aliasTopTours = async (req, res, next) => {
   req.query.limit = '5';
@@ -34,111 +40,51 @@ exports.checkId = async (req, res, next, val) => {
 //   next();
 // };
 
-exports.getAllTours = async (req, res) => {
-  try {
-    const queryObj = { ...req.query };
-    const excludedQueryObj = [
-      'page',
-      'sort',
-      'limit',
-      'fields',
-      'order',
-      'size',
-    ];
-    excludedQueryObj.forEach((el) => delete queryObj[el]);
+exports.getAllTours = catchAsync(async (req, res, next) => {
+  const query = new APIFeature(req.query).query();
+  const filter = new APIFeature(req.query).filter();
+  console.log({ ...query, ...filter });
 
-    let queryStr = JSON.stringify(queryObj);
+  const tours = await toursModel.findAll({ ...query, ...filter });
 
-    queryStr = queryStr.replace(/\bgte|gt|lte|lt\b/g, (match) => `$${match}`);
+  res.status(200).json({
+    status: 'success',
+    result: tours.length,
+    data: {
+      tours,
+    },
+  });
+});
 
-    ///
-
-    let attributes;
-    if (req.query.fields) {
-      attributes = req.query.fields.split(',');
-    }
-
-    const { page } = req.query || 1;
-    const { limit } = req.query || 100;
-    const skip = Math.max(page - 1, 0) * limit;
-
-    if (req.query.page) {
-      const toursCount = await toursModel.count();
-      if (skip >= toursCount) throw new Error('This page does not exist');
-    }
-
-    const query = {
-      limit: limit,
-      where: JSON.parse(queryStr),
-      offset: skip,
-      order: [[req.query.sort, req.query.order || 'DESC']],
-      attributes,
-    };
-
-    // const query = new APIFeature(req.query).query();
-    // console.log(req.query);
-
-    const tours = await toursModel.findAll(query);
-    // const tours = await toursModel.findAll({
-    //   where: queryObj,
-    //   limit: req.query.limit,
-    //   offset: req.query.page,
-    // });
-
-    res.status(200).json({
-      status: 'success',
-      result: tours.length,
-      data: {
-        tours,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'Failed',
-      message: err.message,
-    });
-  }
-};
-
-exports.getTour = async (req, res) => {
+exports.getTour = catchAsync(async (req, res, next) => {
   const { uuid } = req.params;
 
-  try {
-    const tour = await toursModel.findOne({ where: { uuid: uuid } });
+  const tour = await toursModel.findOne({ where: { uuid: uuid } });
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tour,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'Failed',
-      message: err.message,
-    });
+  if (!tour) {
+    return next(new AppError('No tour found with that id', 404));
   }
-};
 
-exports.createTour = async (req, res) => {
-  try {
-    const tour = await toursModel.create(req.body);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour,
+    },
+  });
+});
 
-    res.status(201).json({
-      status: 'Success',
-      data: {
-        tour: tour,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'Failed',
-      message: err,
-    });
-  }
-};
+exports.createTour = catchAsync(async (req, res, next) => {
+  const tour = await toursModel.create(req.body);
 
-exports.updateTour = async (req, res) => {
+  res.status(201).json({
+    status: 'Success',
+    data: {
+      tour: tour,
+    },
+  });
+});
+
+exports.updateTour = catchAsync(async (req, res, next) => {
   const uuid = req.params;
 
   // const {
@@ -156,38 +102,70 @@ exports.updateTour = async (req, res) => {
   //   startDates,
   // } = req.body;
 
-  try {
-    await toursModel.update(req.body, {
-      where: uuid,
-    });
+  const tourUpdated = await toursModel.update(req.body, {
+    where: uuid,
+  });
 
-    res.status(200).json({
-      status: 'Success',
-      message: 'Tours Updated!',
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'Failed',
-      message: err.message,
-    });
+  if (!tourUpdated) {
+    return next(new AppError('No tour found with that id', 404));
   }
-};
 
-exports.deleteTour = (req, res) => {
+  res.status(200).json({
+    status: 'Success',
+    message: 'Tours Updated!',
+  });
+});
+
+exports.deleteTour = catchAsync(async (req, res, next) => {
   const { uuid } = req.params;
-  try {
-    toursModel.destroy({
-      where: { uuid },
-    });
 
-    res.status(200).json({
-      status: 'Success',
-      message: `Tour ${uuid} was successfully deleted`,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'Failed',
-      message: err.message,
-    });
+  const tourDeleted = await toursModel.destroy({
+    where: { uuid },
+  });
+
+  if (!tourDeleted) {
+    return next(new AppError('No tour found with that id', 404));
   }
-};
+
+  res.status(200).json({
+    status: 'Success',
+    message: `Tour ${uuid} was successfully deleted`,
+  });
+});
+
+exports.getToursStats = catchAsync(async (req, res, next) => {
+  const stats = await toursModel.findAll({
+    group: 'difficulty',
+    attributes: [
+      [fn('UPPER', col('difficulty')), 'difficulty'],
+      [fn('AVG', col('ratingsAverage')), 'avgRatting'],
+      [fn('SUM', 1), 'numTours'],
+      [fn('SUM', col('ratingsQuantity')), 'numRattings'],
+      [fn('AVG', col('price')), 'avgPrice'],
+      [fn('MIN', col('price')), 'minPrice'],
+      [fn('MAX', col('price')), 'maxPrice'],
+    ],
+    order: [['avgPrice', 'asc']],
+  });
+
+  res.status(201).json({
+    status: 'Success',
+    data: {
+      stats,
+    },
+  });
+});
+
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+  const { year } = req.params;
+
+  const plan = await toursModel.findAll();
+
+  res.status(201).json({
+    status: 'Success',
+    result: plan.length,
+    data: {
+      plan,
+    },
+  });
+});

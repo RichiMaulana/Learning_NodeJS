@@ -1,4 +1,11 @@
 building-api/.eslintrc.json
+
+building-api2/.eslintrc.json
+building-api2/.idea/
+building-api2/.prettierrc
+building-api2/.vscode/
+building-api2/node_modules
+
 building-api/.idea/
 building-api/.prettierrc
 building-api/.vscode/

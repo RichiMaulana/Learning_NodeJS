@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.hasMany(models.tourDate, { foreignKey: 'tourId' });
     }
 
     toJSON() {
@@ -61,6 +62,15 @@ module.exports = (sequelize, DataTypes) => {
       startDates: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         notNull: true,
+      },
+      durationWeeks: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.duration / 7}`;
+        },
+        set(value) {
+          throw new Error('Do not try to set the `durationWeeks` value!');
+        },
       },
     },
     {
