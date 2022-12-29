@@ -1,24 +1,6 @@
 const { userServices } = require("../services/");
-
-exports.createUser = async (req, res) => {
-  try {
-    data = req.body;
-    await userServices.validateInput(data);
-    const result = await userServices.createUser(data);
-
-    res.status(201).json({
-      status: "Success",
-      message: "User created successfully",
-      data: result,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-      data: err,
-    });
-  }
-};
+// const { userRepository } = require("../repository/");
+// const { authHelper } = require("../helper");
 
 exports.getAllUser = async (req, res) => {
   try {

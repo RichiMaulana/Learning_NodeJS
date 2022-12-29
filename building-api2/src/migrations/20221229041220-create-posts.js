@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable("contacts", {
+    await queryInterface.createTable("Posts", {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV1,
@@ -13,14 +13,18 @@ module.exports = {
         primaryKey: true,
         notNull: true,
       },
-      userId: { type: DataTypes.INTEGER, allowNull: false },
-      name: { type: DataTypes.STRING, allowNull: false },
-      phone: {
-        type: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
-      role: DataTypes.ENUM(["primary", "it", "accounting"]),
-      status: {
-        type: DataTypes.ENUM(["active", "inactive", "closed"]),
+      data: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      userID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -32,7 +36,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("contacts");
+  async down(queryInterface, DataTypes) {
+    await queryInterface.dropTable("Posts");
   },
 };

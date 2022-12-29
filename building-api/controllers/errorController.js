@@ -2,7 +2,16 @@ const AppError = require('../utils/appError');
 
 const handleCastErrorDB = (err) => {
   //   console.log(err.original.message);
-  const message = `${err.errors[0].path}: ${err.errors[0].value}. ${err.errors[0].type}`;
+  const message = `Duplicate Value ${err.errors[0].path}: ${err.errors[0].value}. ${err.errors[0].type}`;
+
+  return new AppError(message, 400);
+};
+
+const handleValidationErrorDB = (err) => {
+  const errors = err.errors.map((el) => el.message);
+  const message = errors.map((el) => `Validation error: ${el}`);
+
+  // `Validation error: ${err.errors[0].message}`;
 
   return new AppError(message, 400);
 };
@@ -41,10 +50,10 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
     error.message = err.message;
-    // if (error.name === 'Error') error.message = err.message;
     if (error.name === 'SequelizeUniqueConstraintError')
       error = handleCastErrorDB(error);
-
+    if (error.name === 'SequelizeValidationError')
+      error = handleValidationErrorDB(error);
     sendErrorProd(error, res);
   }
 };

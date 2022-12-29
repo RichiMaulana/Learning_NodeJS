@@ -23,11 +23,11 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      resetPasswordToken: DataTypes.STRING,
-      verificationToken: DataTypes.STRING,
-      isPrimary: DataTypes.BOOLEAN,
+      // resetPasswordToken: DataTypes.STRING,
+      // verificationToken: DataTypes.STRING,
+      // isPrimary: DataTypes.BOOLEAN,
       status: {
-        type: DataTypes.ENUM(["active", "trashed"]),
+        type: DataTypes.ENUM(["active", "inactive"]),
       },
       createdAt: {
         allowNull: false,

@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Posts, { foreignKey: "userID" });
     }
 
     toJSON() {
@@ -41,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue("password", bcrypt.hashSync(value, 12));
         },
       },
-      resetPasswordToken: DataTypes.STRING,
-      verificationToken: DataTypes.STRING,
-      isPrimary: DataTypes.BOOLEAN,
+      // resetPasswordToken: DataTypes.STRING,
+      // verificationToken: DataTypes.STRING,
+      // isPrimary: DataTypes.BOOLEAN,
       status: {
-        type: DataTypes.ENUM(["active", "trashed"]),
+        type: DataTypes.ENUM(["active", "inactive"]),
       },
     },
     {

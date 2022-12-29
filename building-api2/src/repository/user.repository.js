@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { Users } = require("../models");
+const { Users, Posts } = require("../models");
 
 exports.createUsers = async (data) => {
   const create = await Users.create(data);
@@ -9,7 +9,11 @@ exports.createUsers = async (data) => {
 exports.getAllUsers = async () => {
   const result = await Users.findAll({
     order: [["createdAt", "desc"]],
-    attributes: {},
+    attributes: ["uuid", "name", "email", "status", "createdAt", "updatedAt"],
+    include: {
+      model: Posts,
+      attributes: ["uuid", "name", "data", "createdAt", "updatedAt"],
+    },
   });
   return result;
 };
@@ -17,6 +21,14 @@ exports.getAllUsers = async () => {
 exports.getByUuid = (uuid) => {
   const result = Users.findOne({
     where: { uuid: uuid },
+    attributes: ["uuid", "name", "email", "id"],
+  });
+  return result;
+};
+
+exports.findByEmail = (email) => {
+  const result = Users.findOne({
+    where: { email: email },
   });
   return result;
 };

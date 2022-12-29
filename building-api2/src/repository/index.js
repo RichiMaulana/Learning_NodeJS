@@ -1,7 +1,7 @@
-const contactRepository = require("./contact.repository");
 const userRepository = require("./user.repository");
+const postRepository = require("./post.repository");
 
 module.exports = {
-  contactRepository,
+  postRepository,
   userRepository,
 };

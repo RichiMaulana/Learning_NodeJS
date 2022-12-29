@@ -1,5 +1,6 @@
 const { userRepository } = require("../repository/");
 const Joi = require("joi");
+const bcrypt = require("bcrypt");
 
 exports.getAllUser = () => {
   const queryResult = userRepository.getAllUsers();
@@ -22,7 +23,6 @@ exports.validateInput = async (data) => {
         )
       )
       .required(),
-    isPrimary: Joi.boolean().required(),
     status: Joi.string().valid("active", "trashed"),
   });
 
@@ -40,9 +40,12 @@ exports.createUser = (data) => {
     name: data.name,
     email: data.email,
     password: data.password,
-    isPrimary: data.isPrimary,
     status: data.status ? data.status : "active",
   };
   const create = userRepository.createUsers(userData);
   return create;
+};
+
+exports.validatePassword = (candidatePassword, userPassword) => {
+  return bcrypt.compare(candidatePassword, userPassword);
 };
