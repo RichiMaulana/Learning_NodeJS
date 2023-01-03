@@ -4,7 +4,6 @@ const { postRepository, userRepository } = require("../repository/");
 exports.getAllPosts = async (req, res) => {
   try {
     const query = await postRepository.getAllPosts(req.body.userInfo.id);
-    console.log(req.body.userInfo.id);
     res.status(200).json({
       status: "Success",
       message: "Successfully get all posts",

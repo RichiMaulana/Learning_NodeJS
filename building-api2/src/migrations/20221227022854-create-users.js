@@ -29,6 +29,9 @@ module.exports = {
       status: {
         type: DataTypes.ENUM(["active", "inactive"]),
       },
+      role: {
+        type: DataTypes.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

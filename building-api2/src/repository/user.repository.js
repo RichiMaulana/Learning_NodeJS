@@ -21,7 +21,7 @@ exports.getAllUsers = async () => {
 exports.getByUuid = (uuid) => {
   const result = Users.findOne({
     where: { uuid: uuid },
-    attributes: ["uuid", "name", "email", "id"],
+    attributes: ["uuid", "name", "email", "id", "role"],
   });
   return result;
 };

@@ -44,6 +44,11 @@ exports.login = async (req, res, next) => {
 
     const token = authHelper.sign(user.uuid);
 
+    res.cookie("jwt", token, {
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    });
+
     res.status(200).json({
       status: "Success",
       token,
@@ -75,6 +80,10 @@ exports.isLogedIn = async (req, res, next) => {
 
     const decoded = await authHelper.verify(token);
     const userInfo = await userRepository.getByUuid(decoded.uuid);
+    if (!userInfo) {
+      throw new Error("Sessions expired! please login again!");
+    }
+
     req.body.userInfo = userInfo.dataValues;
 
     next();
@@ -85,4 +94,21 @@ exports.isLogedIn = async (req, res, next) => {
       errors: err,
     });
   }
+};
+
+exports.restricTo = (...roles) => {
+  return (req, res, next) => {
+    try {
+      if (!roles.includes(req.body.userInfo.role)) {
+        throw new Error("You don't have permission to access this resources");
+      }
+      next();
+    } catch (err) {
+      res.status(400).json({
+        status: "Failed",
+        message: err.message,
+        errors: err,
+      });
+    }
+  };
 };

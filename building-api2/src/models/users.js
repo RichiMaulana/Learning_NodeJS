@@ -48,6 +48,9 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.ENUM(["active", "inactive"]),
       },
+      role: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

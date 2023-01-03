@@ -24,6 +24,7 @@ exports.validateInput = async (data) => {
       )
       .required(),
     status: Joi.string().valid("active", "trashed"),
+    role: Joi.string().valid("admin", "user"),
   });
 
   const { error } = await schema.validateAsync(data);
@@ -41,6 +42,7 @@ exports.createUser = (data) => {
     email: data.email,
     password: data.password,
     status: data.status ? data.status : "active",
+    role: data.role ? data.role : "user",
   };
   const create = userRepository.createUsers(userData);
   return create;
